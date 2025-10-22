@@ -97,3 +97,26 @@ VALUES
 (12, 10),
 (13, 11),
 (14, 12);
+
+
+-- SELECT s.SId, s.SName, c.CName, e.EnrollmentDate
+-- FROM students s
+-- JOIN enrolments e ON s.SId = e.SId
+-- JOIN courses c ON e.CId = c.CId;
+
+-- SELECT s.SId, s.SName, c.CName, e.EnrollmentDate
+-- FROM students s
+-- JOIN enrolments e ON s.SId = e.SId
+-- JOIN courses c ON e.CId = c.CId
+-- WHERE CName='Operating Systems';
+
+-- SELECT p.PId,p.PName,c.CName
+-- From professors p
+-- JOIN courses c ON p.PId=c.CId;
+
+-- SELECT c.CName AS "Course Name",COUNT(e.SId) AS "Number of Students"
+-- FROM courses c
+-- LEFT JOIN enrolments e ON c.CId = e.CId
+-- GROUP BY c.CName
+-- ORDER BY "Number of Students" DESC;
+
