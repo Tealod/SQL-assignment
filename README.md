@@ -1,5 +1,6 @@
 This DATABASE used for control university managament system.
-(images/Screenshot 2025-10-22 143516.png)
+![Database Diagram](images/Screenshot%202025-10-22%20143516.png)
+
 
 There are 6 tables:
 Department
