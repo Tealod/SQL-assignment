@@ -1,40 +1,40 @@
 CREATE TABLE departments (
-    Did SERIAL PRIMARY KEY,
-    DName TEXT NOT NULL
+    departmen_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
     );
 CREATE TABLE professors (
-    Pid SERIAL PRIMARY KEY,
-    PName TEXT NOT NULL,
-    PEmail TEXT NOT NULL UNIQUE,
-    Did INT REFERENCES departments(Did)
+    professor_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    department_id INT REFERENCES departments(department_id)
     );
 CREATE TABLE faculty (
-    FId SERIAL PRIMARY KEY,
-    FName TEXT NOT NULL,
-    Did INT REFERENCES departments(Did)
+    faculty_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    department_id REFERENCES departments(department_id)
     );
 CREATE TABLE courses (
-    CId SERIAL PRIMARY KEY,
-    CName TEXT NOT NULL,
-    FId INT REFERENCES faculty(FId),
-    PId INT REFERENCES professors(PId)
+    course_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    faculty_id INT REFERENCES faculty(faculty_id),
+   professor_id INT REFERENCES professors(professor_id)
     );
 CREATE TABLE students (
-    SId SERIAL PRIMARY KEY,
-    SName TEXT NOT NULL,
-    SSurname TEXT NOT NULL,
-    SEmail TEXT NOT NULL UNIQUE,
-    FId INT REFERENCES faculty(FId)
+    student_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    surname TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    faculty_id INT REFERENCES faculty(faculty_id)
     );
 CREATE TABLE enrolments (
-    EId SERIAL PRIMARY KEY,
-    SId INT REFERENCES students(SId),
-    CId INT REFERENCES courses(CId),
-    EnrollmentDate DATE DEFAULT CURRENT_DATE
+    enrolment_id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES students(student_id),
+    course_id INT REFERENCES courses(course_id),
+    enrollmentDate DATE DEFAULT CURRENT_DATE
     );
-INSERT INTO departments (DName)
+INSERT INTO departments (name)
 VALUES ('Computer Scinece and Engineering Department');
-INSERT INTO professors (PName, PEmail, Did)
+INSERT INTO professors (name, email, department_id)
 VALUES
 ('Ali Karimov', 'ali.karimov@univ.uz', 1),
 ('Dilorom Sodiqova', 'dilorom.sodiqova@univ.uz', 1),
@@ -46,11 +46,11 @@ VALUES
 ('Gulnora Xamidova', 'gulnora.xamidova@univ.uz', 1),
 ('Oybek Raxmonov', 'oybek.raxmonov@univ.uz', 1),
 ('Sardor To‘xtayev', 'sardor.toxtayev@univ.uz', 1);
-INSERT INTO faculty (FName, Did)
+INSERT INTO faculty (name, department_id)
 VALUES
 ('Computer Engineering', 1),
 ('Software Engineering', 1);
-INSERT INTO courses (CName, FId, PId)
+INSERT INTO courses (name, faculty_id, professor_id)
 VALUES
 ('Programming Fundamentals', 1, 1),
 ('Database Systems', 1, 2),
@@ -64,7 +64,7 @@ VALUES
 ('Software Project Management', 2, 10),
 ('Cybersecurity Basics', 1, 2),
 ('Cloud Computing', 1, 3);
-INSERT INTO students (SName, SSurname, SEmail, FId)
+INSERT INTO students (name, surname, email, faculty_id)
 VALUES
 ('Abbos', 'Odilov', 'abbos.odilov@univ.uz', 1),
 ('Komiljon', 'Temurbekov', 'komiljon.temurbekov@univ.uz', 2),
@@ -81,7 +81,7 @@ VALUES
 ('Malika', 'Abdurahmonova', 'malika.abdurahmonova@univ.uz', 1),
 ('Sirojiddin', 'Yo‘ldoshev', 'sirojiddin.yoldoshev@univ.uz', 2),
 ('Asal', 'Karimova', 'asal.karimova@univ.uz', 1);
-INSERT INTO enrolments (SId, CId)
+INSERT INTO enrolments (student_id, course_id)
 VALUES
 (1, 1),
 (1, 2),
@@ -105,25 +105,26 @@ VALUES
 (14, 12);
 
 
--- SELECT s.SId, s.SName, c.CName, e.EnrollmentDate
+-- SELECT s.id, s.name, c.name, e.enrollmentDate
 -- FROM students s
--- JOIN enrolments e ON s.SId = e.SId
--- JOIN courses c ON e.CId = c.CId;
+-- JOIN enrolments e ON s.student_id = e.student_id
+-- JOIN courses c ON e.course_id = c.course_id;
 
--- SELECT s.SId, s.SName, c.CName, e.EnrollmentDate
+-- SELECT s.student_id, s.name, c.name, e.enrollmentDate
 -- FROM students s
--- JOIN enrolments e ON s.SId = e.SId
--- JOIN courses c ON e.CId = c.CId
--- WHERE CName='Operating Systems';
+-- JOIN enrolments e ON s.student_id = e.student_id
+-- JOIN courses c ON e.course_id = c.course_id
+-- WHERE name='Operating Systems';
 
--- SELECT p.PId,p.PName,c.CName
+-- SELECT p.professor_id,p.name,c.name
 -- From professors p
--- JOIN courses c ON p.PId=c.CId;
+-- JOIN courses c ON p.professor_id=c.course_id;
 
--- SELECT c.CName AS "Course Name",COUNT(e.SId) AS "Number of Students"
+-- SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
 -- FROM courses c
--- LEFT JOIN enrolments e ON c.CId = e.CId
--- GROUP BY c.CName
+-- LEFT JOIN enrolments e ON c.course_id = e.course_id
+-- GROUP BY c.name
 -- ORDER BY "Number of Students" DESC;
+
 
 
