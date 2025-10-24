@@ -1,31 +1,37 @@
 CREATE TABLE departments (
     Did SERIAL PRIMARY KEY,
-    DName TEXT NOT NULL);
+    DName TEXT NOT NULL
+    );
 CREATE TABLE professors (
     Pid SERIAL PRIMARY KEY,
     PName TEXT NOT NULL,
     PEmail TEXT NOT NULL UNIQUE,
-    Did INT REFERENCES departments(Did));
+    Did INT REFERENCES departments(Did)
+    );
 CREATE TABLE faculty (
     FId SERIAL PRIMARY KEY,
     FName TEXT NOT NULL,
-    Did INT REFERENCES departments(Did));
+    Did INT REFERENCES departments(Did)
+    );
 CREATE TABLE courses (
     CId SERIAL PRIMARY KEY,
     CName TEXT NOT NULL,
     FId INT REFERENCES faculty(FId),
-    PId INT REFERENCES professors(PId));
+    PId INT REFERENCES professors(PId)
+    );
 CREATE TABLE students (
     SId SERIAL PRIMARY KEY,
     SName TEXT NOT NULL,
     SSurname TEXT NOT NULL,
     SEmail TEXT NOT NULL UNIQUE,
-    FId INT REFERENCES faculty(FId));
+    FId INT REFERENCES faculty(FId)
+    );
 CREATE TABLE enrolments (
     EId SERIAL PRIMARY KEY,
     SId INT REFERENCES students(SId),
     CId INT REFERENCES courses(CId),
-    EnrollmentDate DATE DEFAULT CURRENT_DATE);
+    EnrollmentDate DATE DEFAULT CURRENT_DATE
+    );
 INSERT INTO departments (DName)
 VALUES ('Computer Scinece and Engineering Department');
 INSERT INTO professors (PName, PEmail, Did)
@@ -119,4 +125,5 @@ VALUES
 -- LEFT JOIN enrolments e ON c.CId = e.CId
 -- GROUP BY c.CName
 -- ORDER BY "Number of Students" DESC;
+
 
