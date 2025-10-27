@@ -1,5 +1,5 @@
 This DATABASE used for control university managament system.
-![Database Diagram](images/ER diagram.png)
+![Database Diagram](im/1.png)
 
 
 There are 6 tables:
