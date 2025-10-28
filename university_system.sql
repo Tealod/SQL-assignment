@@ -1,42 +1,42 @@
 CREATE TABLE department (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
-    );
+    name VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE professor (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(25) NOT NULL UNIQUE,
     department_id INT REFERENCES department(id)
-    );
+);
 
 CREATE TABLE faculty (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    department_id REFERENCES departments(id)
-    );
+    name VARCHAR(50) NOT NULL,
+    department_id INT REFERENCES department(id)
+);
 
 CREATE TABLE course (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
+    name VARCHAR(120) NOT NULL,
     faculty_id INT REFERENCES faculty(id),
-   professor_id INT REFERENCES professor(id)
-    );
+    professor_id INT REFERENCES professor(id)
+);
 
 CREATE TABLE student (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    surname TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
+    name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50) NOT NULL,
+    email VARCHAR(20) NOT NULL UNIQUE,
     faculty_id INT REFERENCES faculty(id)
-    );
+);
 
 CREATE TABLE enrolment (
     id SERIAL PRIMARY KEY,
-    student_id INT REFERENCES students(id),
-    course_id INT REFERENCES courses(id),
+    student_id INT REFERENCES student(id),
+    course_id INT REFERENCES course(id),
     enrollmentDate DATE DEFAULT CURRENT_DATE
-    );
+);
 
 INSERT INTO department (name)
 VALUES ('Computer Scinece and Engineering Department');
@@ -133,6 +133,7 @@ VALUES
 -- LEFT JOIN enrolments e ON c.course_id = e.course_id
 -- GROUP BY c.name
 -- ORDER BY "Number of Students" DESC;
+
 
 
 
