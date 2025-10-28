@@ -1,57 +1,59 @@
+-- ============================
+--   UNIVERSITY DATABASE (Custom Primary Keys)
+-- ============================
+
 CREATE TABLE department (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    department_id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE professor (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL UNIQUE,
+    professor_id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    email VARCHAR(20) NOT NULL UNIQUE,
     department_id INT,
-    FOREIGN KEY (department_id) REFERENCES department(id)
+    FOREIGN KEY (department_id) REFERENCES department(department_id)
 );
 
 CREATE TABLE faculty (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    faculty_id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
     department_id INT,
-    FOREIGN KEY (department_id) REFERENCES department(id)
+    FOREIGN KEY (department_id) REFERENCES department(department_id)
 );
 
 CREATE TABLE course (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(120) NOT NULL,
+    course_id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
     faculty_id INT,
     professor_id INT,
-    FOREIGN KEY (faculty_id) REFERENCES faculty(id),
-    FOREIGN KEY (professor_id) REFERENCES professor(id)
+    FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id),
+    FOREIGN KEY (professor_id) REFERENCES professor(professor_id)
 );
 
 CREATE TABLE student (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    surname VARCHAR(70) NOT NULL,
-    email VARCHAR(150) NOT NULL UNIQUE,
+    student_id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    surname VARCHAR(30) NOT NULL,
+    email VARCHAR(20) NOT NULL UNIQUE,
     faculty_id INT,
-    FOREIGN KEY (faculty_id) REFERENCES faculty(id)
+    FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id)
 );
 
 CREATE TABLE enrolment (
-    id SERIAL PRIMARY KEY,
+    enrolment_id SERIAL PRIMARY KEY,
     student_id INT,
     course_id INT,
     enrollmentDate DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (student_id) REFERENCES student(id),
-    FOREIGN KEY (course_id) REFERENCES course(id)
+    FOREIGN KEY (student_id) REFERENCES student(student_id),
+    FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
 
-
 INSERT INTO department (name)
-VALUES ('Computer Scinece and Engineering Department');
+VALUES ('Computer Science and Engineering Department');
 
-INSERT INTO professors (name, email, department_id)
+INSERT INTO professor (name, email, department_id)
 VALUES
-    
 ('Ali Karimov', 'ali.karimov@univ.uz', 1),
 ('Dilorom Sodiqova', 'dilorom.sodiqova@univ.uz', 1),
 ('Javohir Mamatov', 'javohir.mamatov@univ.uz', 1),
@@ -62,11 +64,13 @@ VALUES
 ('Gulnora Xamidova', 'gulnora.xamidova@univ.uz', 1),
 ('Oybek Raxmonov', 'oybek.raxmonov@univ.uz', 1),
 ('Sardor To‘xtayev', 'sardor.toxtayev@univ.uz', 1);
+
 INSERT INTO faculty (name, department_id)
 VALUES
 ('Computer Engineering', 1),
 ('Software Engineering', 1);
-INSERT INTO courses (name, faculty_id, professor_id)
+
+INSERT INTO course (name, faculty_id, professor_id)
 VALUES
 ('Programming Fundamentals', 1, 1),
 ('Database Systems', 1, 2),
@@ -80,7 +84,8 @@ VALUES
 ('Software Project Management', 2, 10),
 ('Cybersecurity Basics', 1, 2),
 ('Cloud Computing', 1, 3);
-INSERT INTO students (name, surname, email, faculty_id)
+
+INSERT INTO student (name, surname, email, faculty_id)
 VALUES
 ('Abbos', 'Odilov', 'abbos.odilov@univ.uz', 1),
 ('Komiljon', 'Temurbekov', 'komiljon.temurbekov@univ.uz', 2),
@@ -97,7 +102,8 @@ VALUES
 ('Malika', 'Abdurahmonova', 'malika.abdurahmonova@univ.uz', 1),
 ('Sirojiddin', 'Yo‘ldoshev', 'sirojiddin.yoldoshev@univ.uz', 2),
 ('Asal', 'Karimova', 'asal.karimova@univ.uz', 1);
-INSERT INTO enrolments (student_id, course_id)
+
+INSERT INTO enrolment (student_id, course_id)
 VALUES
 (1, 1),
 (1, 2),
@@ -120,28 +126,28 @@ VALUES
 (13, 11),
 (14, 12);
 
-
-SELECT s.id, s.name, c.name, e.enrollmentDate
+SELECT s.student_id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
 FROM student s
-JOIN enrolment e ON s.id = e.student_id
-JOIN course c ON e.course_id = c.id;
+JOIN enrolment e ON s.student_id = e.student_id
+JOIN course c ON e.course_id = c.course_id;
 
-SELECT s.id, s.name, c.name, e.enrollmentDate
+SELECT  s.student_id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
 FROM student s
-JOIN enrolment e ON s.id = e.student_id
-JOIN course c ON e.course_id = c.id
-WHERE name='Operating Systems';
+JOIN enrolment e ON s.student_id = e.student_id
+JOIN course c ON e.course_id = c.course_id
+WHERE c.name = 'Operating Systems';
 
-SELECT p.id,p.name,c.name
-From professor p
-JOIN course c ON p.id=c.id;
+
+SELECT p.professor_id,p.name AS professor_name,c.name AS course_name
+FROM professor p
+JOIN course c ON p.professor_id = c.professor_id;
+
 
 SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
 FROM course c
-LEFT JOIN enrolment e ON c.id = e.course_id
+LEFT JOIN enrolment e ON c.course_id = e.course_id
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
-
 
 
 
