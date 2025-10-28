@@ -1,42 +1,50 @@
 CREATE TABLE department (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE professor (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    email VARCHAR(25) NOT NULL UNIQUE,
-    department_id INT REFERENCES department(id)
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE faculty (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    department_id INT REFERENCES department(id)
+    name VARCHAR(100) NOT NULL,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE course (
     id SERIAL PRIMARY KEY,
     name VARCHAR(120) NOT NULL,
-    faculty_id INT REFERENCES faculty(id),
-    professor_id INT REFERENCES professor(id)
+    faculty_id INT,
+    professor_id INT,
+    FOREIGN KEY (faculty_id) REFERENCES faculty(id),
+    FOREIGN KEY (professor_id) REFERENCES professor(id)
 );
 
 CREATE TABLE student (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    surname VARCHAR(50) NOT NULL,
-    email VARCHAR(20) NOT NULL UNIQUE,
-    faculty_id INT REFERENCES faculty(id)
+    surname VARCHAR(70) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    faculty_id INT,
+    FOREIGN KEY (faculty_id) REFERENCES faculty(id)
 );
 
 CREATE TABLE enrolment (
     id SERIAL PRIMARY KEY,
-    student_id INT REFERENCES student(id),
-    course_id INT REFERENCES course(id),
-    enrollmentDate DATE DEFAULT CURRENT_DATE
+    student_id INT,
+    course_id INT,
+    enrollmentDate DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (student_id) REFERENCES student(id),
+    FOREIGN KEY (course_id) REFERENCES course(id)
 );
+
 
 INSERT INTO department (name)
 VALUES ('Computer Scinece and Engineering Department');
@@ -113,26 +121,27 @@ VALUES
 (14, 12);
 
 
--- SELECT s.id, s.name, c.name, e.enrollmentDate
--- FROM students s
--- JOIN enrolments e ON s.student_id = e.student_id
--- JOIN courses c ON e.course_id = c.course_id;
+SELECT s.id, s.name, c.name, e.enrollmentDate
+FROM student s
+JOIN enrolment e ON s.id = e.student_id
+JOIN course c ON e.course_id = c.id;
 
--- SELECT s.student_id, s.name, c.name, e.enrollmentDate
--- FROM students s
--- JOIN enrolments e ON s.student_id = e.student_id
--- JOIN courses c ON e.course_id = c.course_id
--- WHERE name='Operating Systems';
+SELECT s.id, s.name, c.name, e.enrollmentDate
+FROM student s
+JOIN enrolment e ON s.id = e.student_id
+JOIN course c ON e.course_id = c.id
+WHERE name='Operating Systems';
 
--- SELECT p.professor_id,p.name,c.name
--- From professors p
--- JOIN courses c ON p.professor_id=c.course_id;
+SELECT p.id,p.name,c.name
+From professor p
+JOIN course c ON p.id=c.id;
 
--- SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
--- FROM courses c
--- LEFT JOIN enrolments e ON c.course_id = e.course_id
--- GROUP BY c.name
--- ORDER BY "Number of Students" DESC;
+SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
+FROM course c
+LEFT JOIN enrolment e ON c.id = e.course_id
+GROUP BY c.name
+ORDER BY "Number of Students" DESC;
+
 
 
 
