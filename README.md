@@ -14,36 +14,36 @@ There are **6 main tables** in this database:
 
 ---
 
-## 🔗 Table Relationships
+##  Table Relationships
 
-### 🧩 Department
+###  Department
 - A **department** can have **many professors**.
 - A **department** can have **many faculties**.  
   → **professor** → **department** = Many-to-One  
   → **faculty** → **department** = Many-to-One  
 
-### 👨‍🏫 Professor
+###  Professor
 - Each **professor** belongs to **one department**.  
 - Each **course** is taught by **one professor** (and each professor teaches exactly one course).  
   → **course** ↔ **professor** = One-to-One
 
-### 🏫 Faculty
+###  Faculty
 - A **faculty** belongs to **one department**.  
 - A **faculty** can have **many courses**.  
 - A **faculty** can have **many students**.  
   → **course** → **faculty** = Many-to-One  
   → **student** → **faculty** = Many-to-One  
 
-### 📚 Course
+###  Course
 - Each **course** is linked to one **professor** (1:1).
 - Each **course** belongs to one **faculty** (many-to-one).
 - Each **course** can have many **enrolments**.
 
-### 👨‍🎓 Student
+###  Student
 - A **student** belongs to one **faculty**.
 - A **student** can be enrolled in **many courses** through the **enrolment** table.  
 
-### 📝 Enrolment
+###  Enrolment
 - The **enrolment** table is a **junction (bridge)** table connecting:
   - **student** ↔ **course**
 - It also includes:
