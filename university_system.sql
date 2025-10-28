@@ -1,41 +1,49 @@
-CREATE TABLE departments (
-    departmen_id SERIAL PRIMARY KEY,
+CREATE TABLE department (
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL
     );
-CREATE TABLE professors (
-    professor_id SERIAL PRIMARY KEY,
+
+CREATE TABLE professor (
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    department_id INT REFERENCES departments(department_id)
+    department_id INT REFERENCES department(id)
     );
+
 CREATE TABLE faculty (
-    faculty_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    department_id REFERENCES departments(department_id)
+    department_id REFERENCES departments(id)
     );
-CREATE TABLE courses (
-    course_id SERIAL PRIMARY KEY,
+
+CREATE TABLE course (
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    faculty_id INT REFERENCES faculty(faculty_id),
-   professor_id INT REFERENCES professors(professor_id)
+    faculty_id INT REFERENCES faculty(id),
+   professor_id INT REFERENCES professor(id)
     );
-CREATE TABLE students (
-    student_id SERIAL PRIMARY KEY,
+
+CREATE TABLE student (
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     surname TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    faculty_id INT REFERENCES faculty(faculty_id)
+    faculty_id INT REFERENCES faculty(id)
     );
-CREATE TABLE enrolments (
-    enrolment_id SERIAL PRIMARY KEY,
-    student_id INT REFERENCES students(student_id),
-    course_id INT REFERENCES courses(course_id),
+
+CREATE TABLE enrolment (
+    id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES students(id),
+    course_id INT REFERENCES courses(id),
     enrollmentDate DATE DEFAULT CURRENT_DATE
     );
-INSERT INTO departments (name)
+
+INSERT INTO department (name)
 VALUES ('Computer Scinece and Engineering Department');
+
 INSERT INTO professors (name, email, department_id)
 VALUES
+    
 ('Ali Karimov', 'ali.karimov@univ.uz', 1),
 ('Dilorom Sodiqova', 'dilorom.sodiqova@univ.uz', 1),
 ('Javohir Mamatov', 'javohir.mamatov@univ.uz', 1),
@@ -125,6 +133,7 @@ VALUES
 -- LEFT JOIN enrolments e ON c.course_id = e.course_id
 -- GROUP BY c.name
 -- ORDER BY "Number of Students" DESC;
+
 
 
 
