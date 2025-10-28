@@ -1,7 +1,3 @@
--- ============================
---   UNIVERSITY DATABASE (Custom Primary Keys)
--- ============================
-
 CREATE TABLE department (
     department_id SERIAL PRIMARY KEY,
     name VARCHAR(20) NOT NULL
@@ -148,6 +144,7 @@ FROM course c
 LEFT JOIN enrolment e ON c.course_id = e.course_id
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
