@@ -1,4 +1,4 @@
-This DATABASE used for control university managament system.
+**DATABASE** used for control university managament system.
 ![Database Diagram](image/12.png)
 
 
