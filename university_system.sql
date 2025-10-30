@@ -1,9 +1,9 @@
-CREATE TABLE department (
+CREATE TABLE departments (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE professor (
+CREATE TABLE professors (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
@@ -11,14 +11,14 @@ CREATE TABLE professor (
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
-CREATE TABLE faculty (
+CREATE TABLE faculties (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     department_id INT NOT NULL,
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
-CREATE TABLE course (
+CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     faculty_id INT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE course (
     FOREIGN KEY (professor_id) REFERENCES professor(id)
 );
 
-CREATE TABLE student (
+CREATE TABLE students (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE student (
     FOREIGN KEY (faculty_id) REFERENCES faculty(id)
 );
 
-CREATE TABLE enrollment (
+CREATE TABLE enrollments (
     id SERIAL PRIMARY KEY,
     student_id INT NOT NULL,
     course_id INT NOT NULL,
@@ -45,10 +45,10 @@ CREATE TABLE enrollment (
     FOREIGN KEY (course_id) REFERENCES course(id)
 );
 
-INSERT INTO department (name)
+INSERT INTO departments (name)
 VALUES ('Computer Science and Engineering Department');
 
-INSERT INTO professor (name, email, department_id)
+INSERT INTO professors (name, email, department_id)
 VALUES
 ('Ali Karimov', 'ali.karimov@univ.uz', 1),
 ('Dilorom Sodiqova', 'dilorom.sodiqova@univ.uz', 1),
@@ -61,12 +61,12 @@ VALUES
 ('Oybek Raxmonov', 'oybek.raxmonov@univ.uz', 1),
 ('Sardor To‘xtayev', 'sardor.toxtayev@univ.uz', 1);
 
-INSERT INTO faculty (name, department_id)
+INSERT INTO faculties (name, department_id)
 VALUES
 ('Computer Engineering', 1),
 ('Software Engineering', 1);
 
-INSERT INTO course (name, faculty_id, professor_id)
+INSERT INTO coursed (name, faculty_id, professor_id)
 VALUES
 ('Programming Fundamentals', 1, 1),
 ('Database Systems', 1, 2),
@@ -81,7 +81,7 @@ VALUES
 ('Cybersecurity Basics', 1, 2),
 ('Cloud Computing', 1, 3);
 
-INSERT INTO student (name, surname, email, faculty_id)
+INSERT INTO students (name, surname, email, faculty_id)
 VALUES
 ('Abbos', 'Odilov', 'abbos.odilov@univ.uz', 1),
 ('Komiljon', 'Temurbekov', 'komiljon.temurbekov@univ.uz', 2),
@@ -99,7 +99,7 @@ VALUES
 ('Sirojiddin', 'Yo‘ldoshev', 'sirojiddin.yoldoshev@univ.uz', 2),
 ('Asal', 'Karimova', 'asal.karimova@univ.uz', 1);
 
-INSERT INTO enrolment (student_id, course_id)
+INSERT INTO enrolments (student_id, course_id)
 VALUES
 (1, 1),
 (1, 2),
@@ -125,32 +125,33 @@ VALUES
 -- Working: via FK we are joined it using  JOIN On(Inner join)
 -- Aliases: Student :s, Course :c, enrolment:e;
 SELECT s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
-FROM student s
-JOIN enrolment e ON s.id = e.student_id
-JOIN course c ON e.course_id = c.id;
+FROM students s
+JOIN enrolments e ON s.id = e.student_id
+JOIN courses c ON e.course_id = c.id;
 
 
 --Output: Student Name ,ID and Operating Systems  and enrolment date
 -- Working: via FK we are joined it using  JOIN On(Inner join)
 -- Aliases: Student :s, Course :c, enrolment:e;
 SELECT  s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
-FROM student s
-JOIN enrolment e ON s.id = e.student_id
-JOIN course c ON e.course_id = c.id
+FROM students s
+JOIN enrolments e ON s.id = e.student_id
+JOIN courses c ON e.course_id = c.id
 WHERE c.name = 'Operating Systems';
 
 -- AS why we need it uses for naming table; 
 --OUTPUT: Professor name ID TEACHING COURSE NAME;
 SELECT p.id,p.name AS professor_name,c.name AS course_name
-FROM professor p
+FROM professors p
 JOIN course c ON p.id = c.id;
 
 --output:cOURSE NAME  AND NUMBER OF STUDENTS WHO ENROLED 
 SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
-FROM course c
-LEFT JOIN enrolment e ON c.id = e.course_id --WHY LEFT JOIN WE NEED INFO ABOUT ONLY COURSE NOT STUDENTS
+FROM courses c
+LEFT JOIN enrolments e ON c.id = e.course_id --WHY LEFT JOIN WE NEED INFO ABOUT ONLY COURSE NOT STUDENTS
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
