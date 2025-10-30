@@ -8,14 +8,14 @@ CREATE TABLE professors (
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     department_id INT NOT NULL,
-    FOREIGN KEY (department_id) REFERENCES department(id)
+    FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
 CREATE TABLE faculties (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     department_id INT NOT NULL,
-    FOREIGN KEY (department_id) REFERENCES department(id)
+    FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
 CREATE TABLE courses (
@@ -23,8 +23,8 @@ CREATE TABLE courses (
     name VARCHAR(50) NOT NULL,
     faculty_id INT NOT NULL,
     professor_id INT NOT NULL,
-    FOREIGN KEY (faculty_id) REFERENCES faculty(id),
-    FOREIGN KEY (professor_id) REFERENCES professor(id)
+    FOREIGN KEY (faculty_id) REFERENCES faculties(id),
+    FOREIGN KEY (professor_id) REFERENCES professors(id)
 );
 
 CREATE TABLE students (
@@ -33,7 +33,7 @@ CREATE TABLE students (
     surname VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     faculty_id INT NOT NULL,
-    FOREIGN KEY (faculty_id) REFERENCES faculty(id)
+    FOREIGN KEY (faculty_id) REFERENCES faculties(id)
 );
 
 CREATE TABLE enrollments (
@@ -41,8 +41,8 @@ CREATE TABLE enrollments (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
     enrollment_date DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (student_id) REFERENCES student(id),
-    FOREIGN KEY (course_id) REFERENCES course(id)
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (course_id) REFERENCES courses(id)
 );
 
 INSERT INTO departments (name)
@@ -123,7 +123,7 @@ VALUES
 (14, 12);
 
 
--- Output: Student Name ,ID and course name and enrolment date ;
+-- Output: Student Name, ID, Course Name, Enrollment Date
 -- Working: via FK we are joined it using  JOIN On(Inner join)
 -- Aliases: Student :s, Course :c, enrolment:e;
 SELECT s.id, s.name AS student_name,
@@ -134,9 +134,9 @@ JOIN enrolments e ON s.id = e.student_id
 JOIN courses c ON e.course_id = c.id;
 
 
---Output: Student Name ,ID and Operating Systems  and enrolment date
---Working: via FK we are joined it using  JOIN On(Inner join)
--- Aliases: Student :s, Course :c, enrolment:e;
+--Output=>Students Enrolled in "Operating Systems"
+--Working=>via FK we are joined it using  JOIN On(Inner join)
+--Aliases=>Student :s, Course :c, enrolment:e;
 SELECT  s.id, s.name AS student_name,
         c.name AS course_name, 
         e.enrollmentDate
@@ -146,19 +146,21 @@ JOIN courses c ON e.course_id = c.id
 WHERE c.name = 'Operating Systems';
 
 
---Output: Professor's Name, ID,TEACHING COURSE NAME;
+
 SELECT p.id, p.name  AS  professor_name,
        c.name AS course_name
 FROM professors p
 JOIN course c ON p.id = c.id;
 
---Output:Course name and count of students 
+
+--Course Name and Count of Enrolled Students
 SELECT c.name AS "Course Name",
        COUNT(e.student_id) AS "Number of Students"
 FROM courses c
-LEFT JOIN enrolments e ON c.id = e.course_id --WHY LEFT JOIN WE NEED INFO ABOUT ONLY COURSE NOT STUDENTS
+LEFT JOIN enrolments e ON c.id = e.course_id 
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
