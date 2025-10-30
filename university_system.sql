@@ -121,36 +121,45 @@ VALUES
 (12, 10),
 (13, 11),
 (14, 12);
+
+
 -- Output: Student Name ,ID and course name and enrolment date ;
 -- Working: via FK we are joined it using  JOIN On(Inner join)
 -- Aliases: Student :s, Course :c, enrolment:e;
-SELECT s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
+SELECT s.id, s.name AS student_name,
+       c.name AS course_name, 
+       e.enrollmentDate
 FROM students s
 JOIN enrolments e ON s.id = e.student_id
 JOIN courses c ON e.course_id = c.id;
 
 
 --Output: Student Name ,ID and Operating Systems  and enrolment date
--- Working: via FK we are joined it using  JOIN On(Inner join)
+--Working: via FK we are joined it using  JOIN On(Inner join)
 -- Aliases: Student :s, Course :c, enrolment:e;
-SELECT  s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
+SELECT  s.id, s.name AS student_name,
+        c.name AS course_name, 
+        e.enrollmentDate
 FROM students s
 JOIN enrolments e ON s.id = e.student_id
 JOIN courses c ON e.course_id = c.id
 WHERE c.name = 'Operating Systems';
 
--- AS why we need it uses for naming table; 
---OUTPUT: Professor name ID TEACHING COURSE NAME;
-SELECT p.id,p.name AS professor_name,c.name AS course_name
+
+--Output: Professor's Name, ID,TEACHING COURSE NAME;
+SELECT p.id, p.name  AS  professor_name,
+       c.name AS course_name
 FROM professors p
 JOIN course c ON p.id = c.id;
 
---output:cOURSE NAME  AND NUMBER OF STUDENTS WHO ENROLED 
-SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
+--Output:Course name and count of students 
+SELECT c.name AS "Course Name",
+       COUNT(e.student_id) AS "Number of Students"
 FROM courses c
 LEFT JOIN enrolments e ON c.id = e.course_id --WHY LEFT JOIN WE NEED INFO ABOUT ONLY COURSE NOT STUDENTS
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
