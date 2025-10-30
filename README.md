@@ -5,19 +5,19 @@
 
 There are **6 main tables** in this database:
 
-1. **department**  
-2. **professor**  
-3. **faculty**  
-4. **course**  
-5. **student**  
-6. **enrolment**
+1. **departments**  
+2. **professors**  
+3. **faculties**  
+4. **courses**  
+5. **students**  
+6. **enrolments**
 
 ---
 
 ##  Table Relationships
 
-###  Department
-- A **department** can have **many professors**.
+###  Departments
+- A **departments** can have **many professors**.
 - A **department** can have **many faculties**.  
   → **professor** → **department** = Many-to-One  
   → **faculty** → **department** = Many-to-One  
