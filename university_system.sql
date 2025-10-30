@@ -122,28 +122,29 @@ VALUES
 (13, 11),
 (14, 12);
 
-SELECT s.student_id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
+SELECT s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
 FROM student s
-JOIN enrolment e ON s.student_id = e.student_id
-JOIN course c ON e.course_id = c.course_id;
+JOIN enrolment e ON s.id = e.student_id
+JOIN course c ON e.course_id = c.id;
 
-SELECT  s.student_id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
+SELECT  s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
 FROM student s
-JOIN enrolment e ON s.student_id = e.student_id
-JOIN course c ON e.course_id = c.course_id
+JOIN enrolment e ON s.id = e.student_id
+JOIN course c ON e.course_id = c.id
 WHERE c.name = 'Operating Systems';
 
 
-SELECT p.professor_id,p.name AS professor_name,c.name AS course_name
+SELECT p.id,p.name AS professor_name,c.name AS course_name
 FROM professor p
-JOIN course c ON p.professor_id = c.professor_id;
+JOIN course c ON p.id = c.id;
 
 
 SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
 FROM course c
-LEFT JOIN enrolment e ON c.course_id = e.course_id
+LEFT JOIN enrolment e ON c.id = e.course_id
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
