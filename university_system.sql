@@ -126,6 +126,7 @@ VALUES
 -- Output: Student Name, ID, Course Name, Enrollment Date
 -- Working: via FK we are joined it using  JOIN On(Inner join)
 -- Aliases: Student :s, Course :c, enrolment:e;
+
 SELECT s.id, s.name AS student_name,
        c.name AS course_name, 
        e.enrollmentDate
@@ -137,6 +138,7 @@ JOIN courses c ON e.course_id = c.id;
 --Output=>Students Enrolled in "Operating Systems"
 --Working=>via FK we are joined it using  JOIN On(Inner join)
 --Aliases=>Student :s, Course :c, enrolment:e;
+
 SELECT  s.id, s.name AS student_name,
         c.name AS course_name, 
         e.enrollmentDate
@@ -146,6 +148,7 @@ JOIN courses c ON e.course_id = c.id
 WHERE c.name = 'Operating Systems';
 
 
+--Professor's Name, ID, and Teaching Course
 
 SELECT p.id, p.name  AS  professor_name,
        c.name AS course_name
@@ -154,12 +157,14 @@ JOIN course c ON p.id = c.id;
 
 
 --Course Name and Count of Enrolled Students
+
 SELECT c.name AS "Course Name",
        COUNT(e.student_id) AS "Number of Students"
 FROM courses c
 LEFT JOIN enrolments e ON c.id = e.course_id 
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
