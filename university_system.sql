@@ -121,29 +121,37 @@ VALUES
 (12, 10),
 (13, 11),
 (14, 12);
-
+-- Output: Student Name ,ID and course name and enrolment date ;
+-- Working: via FK we are joined it using  JOIN On(Inner join)
+-- Aliases: Student :s, Course :c, enrolment:e;
 SELECT s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
 FROM student s
 JOIN enrolment e ON s.id = e.student_id
 JOIN course c ON e.course_id = c.id;
 
+
+--Output: Student Name ,ID and Operating Systems  and enrolment date
+-- Working: via FK we are joined it using  JOIN On(Inner join)
+-- Aliases: Student :s, Course :c, enrolment:e;
 SELECT  s.id,s.name AS student_name,c.name AS course_name,e.enrollmentDate
 FROM student s
 JOIN enrolment e ON s.id = e.student_id
 JOIN course c ON e.course_id = c.id
 WHERE c.name = 'Operating Systems';
 
-
+-- AS why we need it uses for naming table; 2 in 1;
+--OUTPUT: Professor name ID TEACHING COURSE NAME;
 SELECT p.id,p.name AS professor_name,c.name AS course_name
 FROM professor p
 JOIN course c ON p.id = c.id;
 
-
+--output:cOURSE NAME  AND NUMBER OF STUDENTS WHO ENROLED 
 SELECT c.name AS "Course Name",COUNT(e.student_id) AS "Number of Students"
 FROM course c
-LEFT JOIN enrolment e ON c.id = e.course_id
+LEFT JOIN enrolment e ON c.id = e.course_id --WHY LEFT JOIN WE NEED INFO ABOUT ONLY COURSE NOT STUDENTS
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
