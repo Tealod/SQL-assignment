@@ -1,5 +1,5 @@
 **DATABASE** used for control university managament system.
-![Database Diagram](image/1.PNG)
+![Database Diagram](image/изображение_2025-10-30_201954708.png)
 
 
 
