@@ -139,7 +139,7 @@ JOIN enrolment e ON s.id = e.student_id
 JOIN course c ON e.course_id = c.id
 WHERE c.name = 'Operating Systems';
 
--- AS why we need it uses for naming table; 2 in 1;
+-- AS why we need it uses for naming table; 
 --OUTPUT: Professor name ID TEACHING COURSE NAME;
 SELECT p.id,p.name AS professor_name,c.name AS course_name
 FROM professor p
@@ -151,6 +151,7 @@ FROM course c
 LEFT JOIN enrolment e ON c.id = e.course_id --WHY LEFT JOIN WE NEED INFO ABOUT ONLY COURSE NOT STUDENTS
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
