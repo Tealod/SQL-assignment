@@ -1,48 +1,48 @@
 CREATE TABLE department (
-    department_id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE professor (
-    professor_id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    email VARCHAR(20) NOT NULL UNIQUE,
-    department_id INT,
-    FOREIGN KEY (department_id) REFERENCES department(department_id)
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    department_id INT NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE faculty (
-    faculty_id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    department_id INT,
-    FOREIGN KEY (department_id) REFERENCES department(department_id)
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    department_id INT NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE course (
-    course_id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    faculty_id INT,
-    professor_id INT,
-    FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id),
-    FOREIGN KEY (professor_id) REFERENCES professor(professor_id)
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    faculty_id INT NOT NULL,
+    professor_id INT NOT NULL,
+    FOREIGN KEY (faculty_id) REFERENCES faculty(id),
+    FOREIGN KEY (professor_id) REFERENCES professor(id)
 );
 
 CREATE TABLE student (
-    student_id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    surname VARCHAR(30) NOT NULL,
-    email VARCHAR(20) NOT NULL UNIQUE,
-    faculty_id INT,
-    FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id)
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    faculty_id INT NOT NULL,
+    FOREIGN KEY (faculty_id) REFERENCES faculty(id)
 );
 
-CREATE TABLE enrolment (
-    enrolment_id SERIAL PRIMARY KEY,
-    student_id INT,
-    course_id INT,
-    enrollmentDate DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (student_id) REFERENCES student(student_id),
-    FOREIGN KEY (course_id) REFERENCES course(course_id)
+CREATE TABLE enrollment (
+    id SERIAL PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    enrollment_date DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (student_id) REFERENCES student(id),
+    FOREIGN KEY (course_id) REFERENCES course(id)
 );
 
 INSERT INTO department (name)
@@ -144,6 +144,7 @@ FROM course c
 LEFT JOIN enrolment e ON c.course_id = e.course_id
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
