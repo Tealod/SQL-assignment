@@ -123,9 +123,9 @@ VALUES
 (14, 12);
 
 
--- Output: Student Name, ID, Course Name, Enrollment Date
--- Working: via FK we are joined it using  JOIN On(Inner join)
--- Aliases: Student :s, Course :c, enrolment:e;
+-- Output=> Student Name, ID, Course Name, Enrollment Date
+-- Working=> via FK we are joined it using  JOIN On(Inner join)
+-- Aliases=> Student :s, Course :c, enrolment:e;
 
 SELECT s.id, s.name AS student_name,
        c.name AS course_name, 
@@ -164,6 +164,7 @@ FROM courses c
 LEFT JOIN enrolments e ON c.id = e.course_id 
 GROUP BY c.name
 ORDER BY "Number of Students" DESC;
+
 
 
 
